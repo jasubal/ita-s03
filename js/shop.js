@@ -83,12 +83,14 @@ var $cartTotal = document.getElementById('cartTotal');
 
 var cartMessage = " ";
 
-
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-    console.log('▼▼▼ calculating ▼▼▼');
+
+    addToCart(id);
+
+/*
 
     let addedItem = products[id - 1]
     //console.log(addedItem);
@@ -105,6 +107,60 @@ function buy(id) {
     printCart()
     //console.log(cartList);
     console.log('▲▲▲ finished calculations ▲▲▲');
+
+*/
+}
+
+// Exercise 7
+function addToCart(id) {
+    // Refactor previous code in order to simplify it
+    // 1. Loop for to the array products to get the item to add to cart
+    // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+    console.log('▼▼▼ calculating ▼▼▼');
+
+    addedItem = products[id - 1]
+    cartList.push(addedItem);
+    console.log("Last added Item: "+ addedItem.name);
+
+    cart= [];
+    cartList.forEach(cartListItem => {
+        let cartItem;
+        let currName ='';
+        currName = cartListItem.name;
+        //console.log(currName);
+    if ( cart.some( obj => obj.name == currName )) {
+         cartItem = cart.find(element => element.name == currName);
+         //console.log(currName);
+        //console.log("Product exist! add obj.name.quantity ++ "+currName);
+        cartItem.quantity ++ ;
+        cartItem.subtotal = cartItem.quantity * cartItem.price;
+        //console.log(cart)
+
+    }else {
+            cart.push({
+                name: cartListItem.name,
+                price: cartListItem.price,
+                type: cartListItem.type,
+                quantity: 1,
+                subtotal: cartListItem.price
+
+                  });
+        }
+
+    });
+
+    console.log(cart);
+
+
+    calculateSubtotals();
+    calculateTotal();
+    applyPromotionsCart();
+
+
+
+
+    console.log('▲▲▲ finished calculations ▲▲▲');
+
 }
 
 // Exercise 2
@@ -128,22 +184,28 @@ function myCart() {
 // Exercise 3
 function calculateSubtotals() {
     // 1. Create a for loop on the "cartList" array
+    //refactored =>Now loop on cart "array"
     // 2. Implement inside the loop an if...else or switch...case to add the quantities of each type of product, obtaining the subtotals: subtotalGrocery, subtotalBeauty and subtotalClothes
     subtotal.grocery.value = 0;
     subtotal.beauty.value = 0;
     subtotal.clothes.value = 0;
-    for (i = 0; i < cartList.length; ++i) {
+    let valueQuantity = 0;
 
-        switch (cartList[i].type) {
+    for (i = 0; i < cart.length; ++i) {
+
+        switch (cart[i].type) {
             case 'grocery':
-                subtotal.grocery.value += cartList[i].price;
+                valueQuantity= cart[i].price * cart[i].quantity;
+                subtotal.grocery.value += valueQuantity;
                 break;
             case 'beauty':
-                subtotal.beauty.value += cartList[i].price;
+                valueQuantity= cart[i].price * cart[i].quantity;
+                subtotal.beauty.value += valueQuantity;
 
                 break;
             case 'clothes':
-                subtotal.clothes.value += cartList[i].price;
+                valueQuantity= cart[i].price * cart[i].quantity;
+                subtotal.clothes.value += valueQuantity;
                 break;
         }
     }
@@ -151,7 +213,7 @@ function calculateSubtotals() {
     console.log("beauty subTotal= " + subtotal.beauty.value);
     console.log("clothes subTotal= " + subtotal.clothes.value);
 
-    console.log("calculateSubtotals calculated");
+    console.log("Subtotals Calculated");
 }
 
 // Exercise 4
@@ -163,9 +225,10 @@ function calculateTotal() {
             total += subtotal[x].value;
         }
     }
-    totalRounded = total.toFixed(2);
+
+    totalRounded = roundPrice(total);
     total = totalRounded;
-    console.log("Total= " + total);
+    console.log("Total rounded= " + total);
 
     console.log("Total calculated");
 }
@@ -186,6 +249,7 @@ function generateCart() {
          //console.log(currName);
         //console.log("Product exist! add obj.name.quantity ++ "+currName);
         cartItem.quantity ++ ;
+        cartItem.subtotal = cartItem.quantity * cartItem.price;
         //console.log(cart)
 
     }else {
@@ -193,7 +257,9 @@ function generateCart() {
                 name: cartListItem.name,
                 price: cartListItem.price,
                 type: cartListItem.type,
-                quantity: 1
+                quantity: 1,
+                subtotal: cartListItem.price
+
                   });
         }
 
@@ -227,23 +293,18 @@ function applyPromotionsCart() {
         if (cartItem.quantity >= 10) {
             console.log("cartItem >= 10 Instant cupcake mixture ");
             newPromoPrice = (cartItem.price*2)/3;
-            cartItem.price = newPromoPrice
+            cartItem.price = roundPrice(newPromoPrice);
             cartItem.subtotalWithDiscount = cartItem.quantity * newPromoPrice;
         }
         console.log("Promotions applied to Instant cupcake mixture");
     }
 
-    console.log(cart);
+    //console.log(cart);
 
 
 }
 
-// Exercise 7
-function addToCart(id) {
-    // Refactor previous code in order to simplify it
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cart array or update its quantity in case it has been added previously.
-}
+
 
 // Exercise 9
 function removeFromCart(id) {
@@ -255,10 +316,13 @@ function removeFromCart(id) {
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
 
-    /*
+
     console.log(cart);
+
     $cartMessage.innerHTML = '';
     $itemsList.innerHTML = '';
+
+        /*
     for (i = 0; i < cart.length; ++i) {
         // create an  and quantity item for each one
         listItem = document.createElement('li');
@@ -285,4 +349,8 @@ function printCart() {
 
    /*  */
     console.log("Cart printed");
+}
+
+function roundPrice(pricetoRound){
+    return  Number(Number(pricetoRound).toFixed(2));
 }
