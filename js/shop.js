@@ -81,15 +81,13 @@ var $itemsList = document.getElementById('itemsList');
 var $cartMessage = document.getElementById('cartMessage');
 var $cartTotal = document.getElementById('cartTotal');
 
-var cartMessage = " ";
+var cartMessage = "";
 
 // Exercise 1
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-
     addToCart(id);
-
 /*
 
     let addedItem = products[id - 1]
@@ -149,7 +147,7 @@ function addToCart(id) {
 
     });
 
-    console.log(cart);
+    //console.log(cart);
 
 
     calculateSubtotals();
@@ -159,7 +157,7 @@ function addToCart(id) {
 
 
 
-    console.log('▲▲▲ finished calculations ▲▲▲');
+    console.log('▲▲▲ end calculations ▲▲▲');
 
 }
 
@@ -212,7 +210,6 @@ function calculateSubtotals() {
     console.log("grocery subTotal= " + subtotal.grocery.value);
     console.log("beauty subTotal= " + subtotal.beauty.value);
     console.log("clothes subTotal= " + subtotal.clothes.value);
-
     console.log("Subtotals Calculated");
 }
 
@@ -238,6 +235,7 @@ function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart,
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
+    /*
     cart= [];
     cartList.forEach(cartListItem => {
         let cartItem;
@@ -251,7 +249,6 @@ function generateCart() {
         cartItem.quantity ++ ;
         cartItem.subtotal = cartItem.quantity * cartItem.price;
         //console.log(cart)
-
     }else {
             cart.push({
                 name: cartListItem.name,
@@ -262,10 +259,8 @@ function generateCart() {
 
                   });
         }
-
     });
-
-
+*/
 
 }
 
@@ -294,17 +289,15 @@ function applyPromotionsCart() {
             console.log("cartItem >= 10 Instant cupcake mixture ");
             newPromoPrice = (cartItem.price*2)/3;
             cartItem.price = roundPrice(newPromoPrice);
-            cartItem.subtotalWithDiscount = cartItem.quantity * newPromoPrice;
+            cartItem.subtotalWithDiscount = roundPrice(cartItem.quantity * newPromoPrice);
         }
         console.log("Promotions applied to Instant cupcake mixture");
     }
 
-    //console.log(cart);
+    console.log(cart);
 
 
 }
-
-
 
 // Exercise 9
 function removeFromCart(id) {
