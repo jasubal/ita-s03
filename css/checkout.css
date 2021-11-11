@@ -3,6 +3,17 @@
 body {
     font-family: Poppins;
 }
-#errorPassword, #errorName, #errorPhone {
+
+#checkOutFileds {}
+#checkOutFileds input{
+    max-width: 460px;
+    width: 100%;
+}
+#errorPassword, #errorName, #errorLastName, #errorEmail, #errorPhone {
     display: none;
+    text-align: center;
+    width: 100%;
+}
+.showError {
+    display: block!important;
 }
