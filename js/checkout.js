@@ -4,6 +4,7 @@ var $lastName = document.querySelector('.lastName');
 var $email    = document.querySelector('.email');
 var $password = document.querySelector(".password");
 var $phone    = document.querySelector('.phone');
+var $adress    = document.querySelector('.adress');
 
 var $submit =   document.getElementById('btnSubmit');
 var $form =     document.getElementById('checkOutForm');
@@ -18,6 +19,7 @@ var $gLastName = document.getElementById('group-lastName');
 var $gEmail = document.getElementById('group-email');
 var $gPassword = document.getElementById("group-password");
 var $gPhone = document.getElementById('group-phone');
+var $gAdress = document.getElementById('group-adress');
 
 // Get the error elements
 var $errorName = document.getElementById('errorName');
@@ -25,6 +27,7 @@ var $errorLastName = document.getElementById('errorLastName');
 var $errorEmail = document.getElementById('errorEmail');
 var $errorPassword = document.getElementById("errorPassword");
 var $errorPhone = document.getElementById('errorPhone');
+var $errorAdress = document.getElementById('errorAdress');
 
 // Exercise 8
 function validate() {
@@ -36,60 +39,86 @@ function validate() {
     validateName($name);
     validateLastName($lastName);
     validateMail($email);
-    //validatePass($password);
-    //validatePhone($phone);
+    validatePass($password);
+    validatePhone($phone);
+    validateAdress($adress);
 
     console.log("end validating...");
 }
 
-function validateName(vname){
-    let val= vname.value;
-    console.log(val);
+function validateName(e){
+    let val= e.value;
+    //console.log(val);
     if (empty3chars(val)==true){
        $gName.classList.add('showError');
     }else if (onlyLettersSpaces(val)==false) {
         $gName.classList.add('showError');
     }else {
         $gName.classList.remove('showError');
+        return true;
     }
 }
 
-function validateLastName(vlname){
-    let val= vlname.value;
-    console.log(val);
+function validateLastName(e){
+    let val= e.value;
     if (empty3chars(val)==true){
         $gLastName.classList.add('showError');
      }else if (onlyLettersSpaces(val)==false) {
          $gLastName.classList.add('showError');
      }else {
          $gLastName.classList.remove('showError');
+         return true;
      }
 }
 
 
-function validateMail(vmail){
-    let val= vmail.value;
+function validateMail(e){
+    let val= e.value;
     // correct mail format
     let Regex =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
-    console.log("mail: "+val);
+    //console.log("mail: "+val);
     if (Regex.test(val)) {
         $gEmail.classList.remove('showError');
-    }else {
+    } else {
         console.log("invalid mail");
         $gEmail.classList.add('showError');
-    return false;
+        return true;
     }
 }
-function validatePass(vpass){
-    console.log("pass: "+vpass.value);
+function validatePass(e){
+    let val= e.value;
+    if (empty3chars(val)==true) {
+        $gPassword.classList.add('showError');
+    } else if (alphanumeric(val)==false){
+        $gPassword.classList.add('showError');
+    } else {
+        $gPassword.classList.remove('showError');
+        return true;
+    }
+}
+function validatePhone(e){
+    let val= e.value;
+    if (empty3chars(val)==true) {
+        $gPhone.classList.add('showError');
+    } else if (onlynumeric(val)==false){
+        $gPhone.classList.add('showError');
+    } else {
+        $gPhone.classList.remove('showError');
+        return true;
+    }
+
+}
+function validateAdress(e){
+    let val= e.value;
+    if (empty3chars(val)==true) {
+        $gAdress.classList.add('showError');
+    } else {
+        $gAdress.classList.remove('showError');
+        return true;
+    }
 
 }
 
-
-function validatePhone(vphone){
-    console.log("phone: "+vphone.value);
-
-}
 
 
 
@@ -107,6 +136,8 @@ function onlyLettersSpaces(vinput){
 
 }
 
+// HELPER FUNCTIONS
+
 function empty3chars(vinput){
     if (vinput.length <= 3 && vinput ==='' ) {
         console.log("less than 3: " + vinput.length);
@@ -117,4 +148,22 @@ function empty3chars(vinput){
 
     }
 
+}
+function alphanumeric(vinput) {
+    let Regex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,10}$/;
+ if ( Regex.test(vinput) ) {
+   return true;
+   console.log("is alphanumeric");
+  } else {
+   return false;
+  }
+}
+function onlynumeric(vinput) {
+    let Regex = /^(?=.*\d).{9,10}$/;
+ if ( Regex.test(vinput) ) {
+   return true;
+   //console.log("is alphanumeric");
+  } else {
+   return false;
+  }
 }

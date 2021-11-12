@@ -22,19 +22,24 @@ body {
     max-width: 480px;
     width: 100%;
 }
-#errorName, #errorLastName, #errorEmail, #errorPassword,  #errorPhone {
+#errorName, #errorLastName, #errorEmail, #errorPassword,  #errorPhone, #errorAdress {
     display: none;
     text-align: center;
     width: 100%;
 }
 
 #group-name.showError, #group-lastName.showError ,
- #group-email.showError,  #group-password.showError,  #group-phone.showError {
+ #group-email.showError,  #group-password.showError,  #group-phone.showError, #group-adress.showError  {
     color: brown;
     display: block!important;
 }
 
  .showError #errorName, .showError #errorLastName,
-.showError #errorEmail, .showError #errorPassword, .showError #errorPhone {
+.showError #errorEmail, .showError #errorPassword,
+.showError #errorPhone, .showError #errorAdress  {
     display: block!important;
+}
+.showError input {
+    border: 1px solid red;
+    box-shadow: 2px 2px 2px red;;
 }
