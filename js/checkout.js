@@ -11,6 +11,14 @@ var $form =     document.getElementById('checkOutForm');
 $form.addEventListener('submit', e => {
     e.preventDefault()
 })
+
+// Get the error elements
+var $gName = document.getElementById('group-name');
+var $gLastName = document.getElementById('group-lastName');
+var $gEmail = document.getElementById('group-email');
+var $gPassword = document.getElementById("group-password");
+var $gPhone = document.getElementById('group-phone');
+
 // Get the error elements
 var $errorName = document.getElementById('errorName');
 var $errorLastName = document.getElementById('errorLastName');
@@ -20,75 +28,93 @@ var $errorPhone = document.getElementById('errorPhone');
 
 // Exercise 8
 function validate() {
-    // $submit.disabled = true;
+
+    //$submit.disabled = true;
     // Validate fields entered by the user: name, phone, password, and email
     console.log("validating...");
 
     validateName($name);
     validateLastName($lastName);
-    //validateMail($email);
+    validateMail($email);
     //validatePass($password);
     //validatePhone($phone);
-
 
     console.log("end validating...");
 }
 
 function validateName(vname){
     let val= vname.value;
-    notEmpty3chars(val);
-    //onlyLettersSpaces(val);
-    if(onlyLettersSpaces(val)==false){
-    $errorName.classList.add('showError');
+    console.log(val);
+    if (empty3chars(val)==true){
+       $gName.classList.add('showError');
+    }else if (onlyLettersSpaces(val)==false) {
+        $gName.classList.add('showError');
     }else {
-        $errorName.classList.remove('showError');
+        $gName.classList.remove('showError');
     }
 }
 
 function validateLastName(vlname){
     let val= vlname.value;
-    notEmpty3chars(val);
-    //onlyLettersSpaces(val);
-    if(onlyLettersSpaces(val)==false){
-    $errorLastName.classList.add('showError');
-    }else {
-    $errorLastName.classList.remove('showError');
-    }
+    console.log(val);
+    if (empty3chars(val)==true){
+        $gLastName.classList.add('showError');
+     }else if (onlyLettersSpaces(val)==false) {
+         $gLastName.classList.add('showError');
+     }else {
+         $gLastName.classList.remove('showError');
+     }
 }
 
 
+function validateMail(vmail){
+    let val= vmail.value;
+    // correct mail format
+    let Regex =/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ ;
+    console.log("mail: "+val);
+    if (Regex.test(val)) {
+        $gEmail.classList.remove('showError');
+    }else {
+        console.log("invalid mail");
+        $gEmail.classList.add('showError');
+    return false;
+    }
+}
+function validatePass(vpass){
+    console.log("pass: "+vpass.value);
+
+}
 
 
 function validatePhone(vphone){
     console.log("phone: "+vphone.value);
 
 }
-function validatePass(vpass){
-    console.log("pass: "+vpass.value);
 
-}
-function validateMail(vmail){
-    console.log("mail: "+vmail.value);
 
-}
 
 function onlyLettersSpaces(vinput){
      // only leters and spaces
      let Regex =/^[a-zA-Z\s]*$/;
      if ( Regex.test(vinput) ) {
+        //console.log("onlyLettersSpaces");
         return true;
-    } else {
-        console.log("Nooks");
+    }else {
+        //console.log("Nooks");
         return false;
 
     }
 
 }
 
-function notEmpty3chars(vinput){
-    //
-    if (vinput.length <= 3) {
-        console.log("less than 3: "+ vinput.length);
+function empty3chars(vinput){
+    if (vinput.length <= 3 && vinput ==='' ) {
+        console.log("less than 3: " + vinput.length);
+        return true;
+    }else {
+        console.log("ok empty3chars");
+        return false;
+
     }
 
 }
