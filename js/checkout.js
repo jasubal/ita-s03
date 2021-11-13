@@ -35,21 +35,37 @@ function validate() {
     //$submit.disabled = true;
     // Validate fields entered by the user: name, phone, password, and email
     console.log("validating...");
-
-    validateName($name);
     validateLastName($lastName);
+    validateName($name);
     validateMail($email);
     validatePass($password);
     validatePhone($phone);
     validateAdress($adress);
 
-    console.log("end validating...");
+    /*
+if (validateName($name)){
+    console.log("name ok");
+}else if (validateLastName($lastName)){
+    console.log("lastName ok");
+}else if (validateMail($email)){
+    console.log("email ok");
+}else if (validatePass($password)){
+    console.log("password ok");
+}else if (validatePhone($phone)){
+    console.log("phone ok");
+}else if (validateAdress($adress)){
+    console.log("adress ok");
+}else {
+ console.log("end validating all OKS");
+}
+*/
+
 }
 
 function validateName(e){
     let val= e.value;
     //console.log(val);
-    if (empty3chars(val)==true){
+    if (noempty3chars(val)==false){
        $gName.classList.add('showError');
     }else if (onlyLettersSpaces(val)==false) {
         $gName.classList.add('showError');
@@ -61,7 +77,7 @@ function validateName(e){
 
 function validateLastName(e){
     let val= e.value;
-    if (empty3chars(val)==true){
+    if (noempty3chars(val)==false){
         $gLastName.classList.add('showError');
      }else if (onlyLettersSpaces(val)==false) {
          $gLastName.classList.add('showError');
@@ -87,7 +103,7 @@ function validateMail(e){
 }
 function validatePass(e){
     let val= e.value;
-    if (empty3chars(val)==true) {
+    if (noempty3chars(val)==false) {
         $gPassword.classList.add('showError');
     } else if (alphanumeric(val)==false){
         $gPassword.classList.add('showError');
@@ -98,7 +114,7 @@ function validatePass(e){
 }
 function validatePhone(e){
     let val= e.value;
-    if (empty3chars(val)==true) {
+    if (noempty3chars(val)==false) {
         $gPhone.classList.add('showError');
     } else if (onlynumeric(val)==false){
         $gPhone.classList.add('showError');
@@ -110,7 +126,7 @@ function validatePhone(e){
 }
 function validateAdress(e){
     let val= e.value;
-    if (empty3chars(val)==true) {
+    if (noempty3chars(val)==false) {
         $gAdress.classList.add('showError');
     } else {
         $gAdress.classList.remove('showError');
@@ -138,12 +154,12 @@ function onlyLettersSpaces(vinput){
 
 // HELPER FUNCTIONS
 
-function empty3chars(vinput){
-    if (vinput.length <= 3 && vinput ==='' ) {
+function noempty3chars(vinput){
+    if (vinput.length >= 3 && vinput !=='' ) {
         console.log("less than 3: " + vinput.length);
         return true;
     }else {
-        console.log("ok empty3chars");
+        //console.log("ok noempty3chars");
         return false;
 
     }
@@ -153,8 +169,8 @@ function alphanumeric(vinput) {
     let Regex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,10}$/;
  if ( Regex.test(vinput) ) {
    return true;
-   console.log("is alphanumeric");
   } else {
+    console.log(vinput +" NOT alphanumeric");
    return false;
   }
 }
@@ -162,8 +178,8 @@ function onlynumeric(vinput) {
     let Regex = /^(?=.*\d).{9,10}$/;
  if ( Regex.test(vinput) ) {
    return true;
-   //console.log("is alphanumeric");
   } else {
+    console.log(vinput +" NOT numeric");
    return false;
   }
 }
