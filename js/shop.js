@@ -83,13 +83,13 @@ var $cartTotal = document.getElementById('cartTotal');
 
 var cartMessage = "";
 
-// Exercise 1
+// Exercise 1 // refactored in addToCart(id);
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
     addToCart(id);
-/*
 
+    /*
     let addedItem = products[id - 1]
     //console.log(addedItem);
     cartList.push(addedItem);
@@ -193,20 +193,24 @@ function calculateSubtotals() {
 
         switch (cart[i].type) {
             case 'grocery':
-                valueQuantity= cart[i].price * cart[i].quantity;
+                //valueQuantity= cart[i].price * cart[i].quantity;
+                valueQuantity= cart[i].subtotal;
                 subtotal.grocery.value += valueQuantity;
                 break;
             case 'beauty':
-                valueQuantity= cart[i].price * cart[i].quantity;
+                valueQuantity= cart[i].subtotal;
                 subtotal.beauty.value += valueQuantity;
 
                 break;
             case 'clothes':
-                valueQuantity= cart[i].price * cart[i].quantity;
+                valueQuantity= cart[i].subtotal;
                 subtotal.clothes.value += valueQuantity;
                 break;
         }
     }
+    subtotal.grocery.value = roundPrice(subtotal.grocery.value)
+    subtotal.beauty.value = roundPrice(subtotal.beauty.value)
+    subtotal.clothes.value = roundPrice(subtotal.clothes.value)
     console.log("grocery subTotal= " + subtotal.grocery.value);
     console.log("beauty subTotal= " + subtotal.beauty.value);
     console.log("clothes subTotal= " + subtotal.clothes.value);
@@ -230,7 +234,7 @@ function calculateTotal() {
     console.log("Total calculated");
 }
 
-// Exercise 5
+// Exercise 5 // refactored in addToCart(id);
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart,
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
@@ -292,6 +296,8 @@ function applyPromotionsCart() {
             cartItem.subtotalWithDiscount = roundPrice(cartItem.quantity * newPromoPrice);
         }
         console.log("Promotions applied to Instant cupcake mixture");
+    }else {
+        //cartItem.subtotalWithDiscount =
     }
 
     console.log(cart);
