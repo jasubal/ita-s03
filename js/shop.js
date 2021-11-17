@@ -137,6 +137,7 @@ function addToCart(id) {
     }else {
             cart.push({
                 name: cartListItem.name,
+                id: cartListItem.id,
                 price: cartListItem.price,
                 type: cartListItem.type,
                 quantity: 1,
@@ -307,23 +308,35 @@ function applyPromotionsCart() {
 
 // Exercise 9
 function removeFromCart(id) {
+    cartItem = '';
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
+    if (cartItem = cart.find(element => element.id == id)){
+        cartItem.quantity -- ;
+        cartItem.subtotal = cartItem.quantity * cartItem.price;
+        if (cartItem.quantity<1){
+            cartItem.quantity=0;
+            cart.splice(cartItem, 1);
+        }
+        calculateSubtotals();
+        calculateTotal();
+        applyPromotionsCart();
+    console.log(cartItem.name+ " removed, "+ cartItem.quantity+" items remaining");
+    }
+    console.log(cart);
+
 }
 
 // Exercise 10
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-
-
     console.log(cart);
 
     $cartMessage.innerHTML = '';
     $itemsList.innerHTML = '';
 
-        /*
     for (i = 0; i < cart.length; ++i) {
-        // create an  and quantity item for each one
+        // create list item and quantity item for each one
         listItem = document.createElement('li');
         // Add the item text
         listItem.innerHTML = cart[i].name;
@@ -333,22 +346,27 @@ function printCart() {
             ' - <span class="item-price">' + cart[i].price + '$ </span><br>';
         listItem.innerHTML +=
             ' - <span class="item-quantity">Quantity: ' + cart[i].quantity + '</span>';
+        listItem.innerHTML +=
+            '  <button type="button" onclick="removeFromCart('+cart[i].id+')" class="btn btn-primary"> - </button>';
 
             // Add listItem to the listElement
         $itemsList.appendChild(listItem);
     }
     numItmemsCard = cartList.length;
     //console.log(numItmemsCard);
+
     if (cartList == 0) cartMessage = "<p>Cart is empty!</p><h3>Select Something</h3>";
-    else cartMessage = "Added " + cartList.length + " ítems";
+    /*
+    else
+    cartMessage = "Added " + cartList.length + " ítems";
     console.log(cartMessage);
     $cartMessage.innerHTML = cartMessage;
     $cartTotal.innerHTML = "TOTAL = "+ total + "$";
     */
 
-   /*  */
     console.log("Cart printed");
 }
+
 
 function roundPrice(pricetoRound){
     return  Number(Number(pricetoRound).toFixed(2));
