@@ -24,8 +24,15 @@ body{
     right: 0;
     margin-right: 1rem;
 }
-
-
+#cartTotal {
+    font-size: 1em;
+    color: #999;
+}
+#cartTotalDiscount {
+    font-size: 1.2em;
+}
+#item-price {}
+#item-total {}
 #itemsList {
     text-align: center;
     font-size: 1.1em;
@@ -39,7 +46,9 @@ body{
 .modal-content {
     height: 90vh;
 }
-
+.modal-dialog {
+    max-width: 600px;
+}
 @media (min-width: 1600px) {
     #cartModal .modal-dialog {
         top: 5vw;

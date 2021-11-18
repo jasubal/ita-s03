@@ -80,15 +80,17 @@ var total = 0;
 var $itemsList = document.getElementById('itemsList');
 var $cartMessage = document.getElementById('cartMessage');
 var $cartTotal = document.getElementById('cartTotal');
+var $cartTotalDiscount = document.getElementById('cartTotalDiscount');
 
-var cartMessage = "";
+
+var cartMessage  = '';
+var numItemsCard = '';
 
 // Exercise 1 // refactored in addToCart(id);
 function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
     addToCart(id);
-
     /*
     let addedItem = products[id - 1]
     //console.log(addedItem);
@@ -120,42 +122,46 @@ function addToCart(id) {
     cartList.push(addedItem);
     console.log("Last added Item: "+ addedItem.name);
 
+    $cartMessage.innerHTML = '';
+    $itemsList.innerHTML = '';
     cart= [];
     cartList.forEach(cartListItem => {
         let cartItem;
         let currName ='';
         currName = cartListItem.name;
         //console.log(currName);
+        //check if product is already in cart
     if ( cart.some( obj => obj.name == currName )) {
          cartItem = cart.find(element => element.name == currName);
          //console.log(currName);
         //console.log("Product exist! add obj.name.quantity ++ "+currName);
         cartItem.quantity ++ ;
         cartItem.subtotal = cartItem.quantity * cartItem.price;
-        //console.log(cart)
+        cartItem.subtotalWithDiscount = cartItem.quantity * cartItem.priceWithDiscount;
 
     }else {
             cart.push({
-                name: cartListItem.name,
                 id: cartListItem.id,
-                price: cartListItem.price,
+                name: cartListItem.name,
                 type: cartListItem.type,
-                quantity: 1,
-                subtotal: cartListItem.price
 
+                price: cartListItem.price,
+                subtotal: cartListItem.price,
+
+                priceWithDiscount: cartListItem.price,
+                subtotalWithDiscount: cartListItem.price,
+
+                quantity: 1
                   });
         }
-
     });
 
     //console.log(cart);
 
-
+    applyPromotionsCart();
     calculateSubtotals();
     calculateTotal();
-    applyPromotionsCart();
-
-
+    printCart();
 
 
     console.log('▲▲▲ end calculations ▲▲▲');
@@ -171,13 +177,20 @@ function cleanCart() {
     subtotal.grocery.value = 0;
     subtotal.beauty.value = 0;
     subtotal.clothes.value = 0;
+    subtotal.grocery.discount = 0;
+    subtotal.beauty.discount = 0;
+    subtotal.clothes.discount = 0;
     total = 0;
     $cartTotal.innerHTML = '';
     cartMessage = "Cart is empty"
     console.log("Cart cleared!");
+    console.log(cart);
 
 }
 function myCart() {
+    applyPromotionsCart();
+    calculateSubtotals();
+    calculateTotal();
     printCart();
 }
 // Exercise 3
@@ -188,33 +201,61 @@ function calculateSubtotals() {
     subtotal.grocery.value = 0;
     subtotal.beauty.value = 0;
     subtotal.clothes.value = 0;
-    let valueQuantity = 0;
+    subtotal.grocery.discount = 0;
+    subtotal.beauty.discount = 0;
+    subtotal.clothes.discount = 0;
+
+    valueQuantity = 0;
+    valueQuantityWithDiscount = 0;
+    discounted = 0;
 
     for (i = 0; i < cart.length; ++i) {
 
         switch (cart[i].type) {
             case 'grocery':
-                //valueQuantity= cart[i].price * cart[i].quantity;
-                valueQuantity= cart[i].subtotal;
+                valueQuantity = cart[i].subtotal;
                 subtotal.grocery.value += valueQuantity;
+
+                valueQuantityWithDiscount = cart[i].subtotalWithDiscount;
+                discounted = valueQuantity - valueQuantityWithDiscount;
+                subtotal.grocery.discount += discounted;
                 break;
             case 'beauty':
                 valueQuantity= cart[i].subtotal;
                 subtotal.beauty.value += valueQuantity;
 
+                valueQuantityWithDiscount = cart[i].subtotalWithDiscount;
+                discounted = valueQuantity - valueQuantityWithDiscount;
+                subtotal.beauty.discount += discounted;
                 break;
             case 'clothes':
                 valueQuantity= cart[i].subtotal;
                 subtotal.clothes.value += valueQuantity;
+
+                valueQuantityWithDiscount = cart[i].subtotalWithDiscount;
+                discounted = valueQuantity - valueQuantityWithDiscount;
+                subtotal.clothes.discount += rdiscounted;
+
                 break;
         }
     }
-    subtotal.grocery.value = roundPrice(subtotal.grocery.value)
-    subtotal.beauty.value = roundPrice(subtotal.beauty.value)
-    subtotal.clothes.value = roundPrice(subtotal.clothes.value)
+    subtotal.grocery.value = roundPrice(subtotal.grocery.value);
+    subtotal.beauty.value = roundPrice(subtotal.beauty.value);
+    subtotal.clothes.value = roundPrice(subtotal.clothes.value);
+    subtotal.grocery.discount = roundPrice(subtotal.grocery.discount);
+    subtotal.beauty.discount = roundPrice(subtotal.beauty.discount);
+    subtotal.clothes.discount = roundPrice(subtotal.clothes.discount);
+
     console.log("grocery subTotal= " + subtotal.grocery.value);
+    console.log("grocery discount= " + subtotal.grocery.discount);
+
     console.log("beauty subTotal= " + subtotal.beauty.value);
+    console.log("beauty discount= " + subtotal.beauty.discount);
+
     console.log("clothes subTotal= " + subtotal.clothes.value);
+    console.log("clothes discount= " + subtotal.clothes.discount);
+
+    console.log(subtotal);
     console.log("Subtotals Calculated");
 }
 
@@ -222,16 +263,22 @@ function calculateSubtotals() {
 function calculateTotal() {
     // Calculate total price of the cart either using the "cartList" array
     total = 0;
+    totalAfterDiscount = 0;
+    totalDiscount = 0;
+    valueSaved = total - totalAfterDiscount ;
     for (var x in subtotal) {
         if (subtotal.hasOwnProperty(x)) {
             total += subtotal[x].value;
+            totalDiscount += subtotal[x].discount;
         }
     }
 
     totalRounded = roundPrice(total);
     total = totalRounded;
-    console.log("Total rounded= " + total);
-
+    totalAfterDiscount = total - totalDiscount;
+    console.log("Total before discound = " + total);
+    console.log("Total discound = " + totalDiscount);
+    console.log("Total after discound = " + totalAfterDiscount);
     console.log("Total calculated");
 }
 
@@ -282,10 +329,16 @@ function applyPromotionsCart() {
         if (cartItem.quantity >= 3) {
             console.log("cartItem >= 3 cooking oil ");
             newPromoPrice = 10;
-            cartItem.price = newPromoPrice;
-            cartItem.subtotalWithDiscount = cartItem.quantity * newPromoPrice;
+            cartItem.priceWithDiscount = newPromoPrice;
+            cartItem.subtotalWithDiscount = cartItem.quantity * cartItem.priceWithDiscount;
+
+            console.log("Promotions applied to cooking oil");
+        }else {
+            cartItem.priceWithDiscount = cartItem.price;
+            cartItem.subtotalWithDiscount = cartItem.subtotal;
+
         }
-        console.log("Promotions applied to cooking oil");
+
     }
     if ( cart.some( obj => obj.name == "Instant cupcake mixture" )) {
         cartItem = cart.find(element => element.name == "Instant cupcake mixture");
@@ -293,16 +346,18 @@ function applyPromotionsCart() {
         if (cartItem.quantity >= 10) {
             console.log("cartItem >= 10 Instant cupcake mixture ");
             newPromoPrice = (cartItem.price*2)/3;
-            cartItem.price = roundPrice(newPromoPrice);
-            cartItem.subtotalWithDiscount = roundPrice(cartItem.quantity * newPromoPrice);
+            cartItem.priceWithDiscount = roundPrice(newPromoPrice);
+            cartItem.subtotalWithDiscount = roundPrice(cartItem.quantity * cartItem.priceWithDiscount);
+
+            console.log("Promotions applied to Instant cupcake mixture");
+        }else {
+            cartItem.priceWithDiscount = cartItem.price;
+            cartItem.subtotalWithDiscount = cartItem.subtotal;
+
         }
-        console.log("Promotions applied to Instant cupcake mixture");
-    }else {
-        //cartItem.subtotalWithDiscount =
     }
 
-    console.log(cart);
-
+    //console.log(cart);
 
 }
 
@@ -313,27 +368,44 @@ function removeFromCart(id) {
     // 2. Add found product to the cartList array
     if (cartItem = cart.find(element => element.id == id)){
         cartItem.quantity -- ;
+        cartList.splice(cartItem, 1);
         cartItem.subtotal = cartItem.quantity * cartItem.price;
         if (cartItem.quantity<1){
-            cartItem.quantity=0;
             cart.splice(cartItem, 1);
+            cartList.splice(cartItem, 1);
         }
-        calculateSubtotals();
-        calculateTotal();
-        applyPromotionsCart();
+
     console.log(cartItem.name+ " removed, "+ cartItem.quantity+" items remaining");
     }
-    console.log(cart);
-
+    //console.log(cartList);
+    applyPromotionsCart();
+    calculateSubtotals();
+    calculateTotal();
+    printCart();
 }
+
 
 // Exercise 10
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
-    console.log(cart);
+    //console.log(cart);
 
     $cartMessage.innerHTML = '';
     $itemsList.innerHTML = '';
+    numItemsCard = cart.length;
+    console.log("items in card: "+numItemsCard);
+
+    if (numItemsCard <= 0 ) {
+        cartMessage = "Cart is empty! Select Something";
+        cleanCart();
+    }else{
+        cartMessage = "Added " + numItemsCard + " ítems";
+        $cartMessage.innerHTML = cartMessage;
+        $cartTotal.innerHTML = "TOTAL before discount = "+ total + "$";
+        $cartTotalDiscount.innerHTML = "TOTAL after discount = "+ totalAfterDiscount + "$";
+    }
+    console.log(cartMessage);
+
 
     for (i = 0; i < cart.length; ++i) {
         // create list item and quantity item for each one
@@ -341,28 +413,30 @@ function printCart() {
         // Add the item text
         listItem.innerHTML = cart[i].name;
         listItem.innerHTML +=
-            ' - <span class="item-type">' + cart[i].type + '</span>';
+            ' - <span class="item-type">' + cart[i].type + '</span><br>';
+
         listItem.innerHTML +=
-            ' - <span class="item-price">' + cart[i].price + '$ </span><br>';
+            '<span class="item-price">Price/u: ' + cart[i].price + '$</span>';
         listItem.innerHTML +=
-            ' - <span class="item-quantity">Quantity: ' + cart[i].quantity + '</span>';
+            ' - <span class="item-subtotal">Subtotal: ' + cart[i].subtotal + '$</span><br>';
+
+            listItem.innerHTML +=
+            '<span class="item-pricediscount">Price/u after discount: ' + cart[i].priceWithDiscount + '$</span>';
+        listItem.innerHTML +=
+            ' - <span class="item-subtotaldiscount">Subtotal after discount: ' + cart[i].subtotalWithDiscount + '$</span><br>';
+
+            listItem.innerHTML +=
+            '<span class="item-quantity">Quantity: ' + cart[i].quantity + '</span>';
         listItem.innerHTML +=
             '  <button type="button" onclick="removeFromCart('+cart[i].id+')" class="btn btn-primary"> - </button>';
-
+        listItem.innerHTML +=
+            '  <button type="button" onclick="addToCart('+cart[i].id+')" class="btn btn-primary"> + </button>';
             // Add listItem to the listElement
         $itemsList.appendChild(listItem);
     }
-    numItmemsCard = cartList.length;
-    //console.log(numItmemsCard);
 
-    if (cartList == 0) cartMessage = "<p>Cart is empty!</p><h3>Select Something</h3>";
-    /*
-    else
-    cartMessage = "Added " + cartList.length + " ítems";
-    console.log(cartMessage);
-    $cartMessage.innerHTML = cartMessage;
-    $cartTotal.innerHTML = "TOTAL = "+ total + "$";
-    */
+
+    console.log(cart);
 
     console.log("Cart printed");
 }
