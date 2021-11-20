@@ -234,7 +234,7 @@ function calculateSubtotals() {
 
                 valueQuantityWithDiscount = cart[i].subtotalWithDiscount;
                 discounted = valueQuantity - valueQuantityWithDiscount;
-                subtotal.clothes.discount += rdiscounted;
+                subtotal.clothes.discount += discounted;
 
                 break;
         }

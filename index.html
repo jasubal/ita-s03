@@ -12,25 +12,73 @@
     <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
 
-    <title>ShopNow</title>
+        <link rel="stylesheet" href="css/shop.css">
+
+    <title>Welcome to Fast Shop</title>
 </head>
 
-<body>
+<body class="">
+
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-md bg-secondary sticky-top">
+
+    <a class="navbar-brand text-white" href="index.html"><span><i class="fas fa-home mr-2"></i></span>
+        <span>Home</span> </a>
+
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white btn" href="shop.html"><i class="fas fa-cart-arrow-down"></i>
+            Shop</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white btn" href="checkout.html"><i class="fas fa-cash-register"></i>
+            Checkout</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white btn" id="cart" type="button" data-toggle="modal"
+            data-target="#cartModal" onclick="myCart()" href="#beauty"><i class="fas fa-cart-arrow-down"></i>
+            My Cart</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+<div class="cover-bg"></div>
+
     <!-- header -->
-    <header class="m-5">
-        <h1 class="text-center m-5"><i class="fas fa-shopping-cart mr-2"></i> ShopNow</h1>
+    <header class="m-5 text-black">
+        <h1 class="text-center m-5"><i class="fas fa-shopping-cart mr-2"></i> Fast Shop </h1>
         <h3 class="text-center m-3">Welcome to your Online Shopping Store.</h3>
     </header>
+    <main class="px-3 text-center text-black">
+        <h1>Shop now</h1>
+        <p class="lead"></p>
+
+      </main>
+
 
     <!-- Buttons -->
-    <h3 class="text-center">Select your category:</h3>
+    <h3 class="text-center text-black">Select your category:</h3>
     <div class="text-center">
         <button type="button" onclick="window.location.href = 'shop.html#grocery';" class="btn m-4 mt-5 btn btn-primary">Grocery</button>
         <button type="button" onclick="window.location.href = 'shop.html#beauty';" class="btn m-4 mt-5 btn btn-primary">Beauty</button>
         <button type="button" onclick="window.location.href = 'shop.html#clothes';" class="btn m-4 mt-5 btn btn-primary">Clothes</button>
     </div>
+
+    <footer class="mt-auto text-white-50">
+Footer
+      </footer>
+
+</div>
 
     <!-- script tags -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

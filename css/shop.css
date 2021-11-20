@@ -2,10 +2,54 @@
 body{
     font-family: Poppins;
 }
-/* navbar */
-.navbar{
-    background-color: rgb(43, 43, 43) !important;
+header {
+
 }
+.navbar{
+    background-color: #595959a3!important;
+}
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+.cover-container {
+
+}
+.cover-bg {
+    position: absolute;
+    background-image: url("/images/banner-01.jpg");
+    width: 100vw;
+    height: 200vh;
+    top: 0;
+    left: 0;
+    opacity: .1;
+    z-index: -1;
+    background-size: inherit;
+    overflow: hidden;
+}
+.cover-shop-bg {
+    position: absolute;
+    background-image: url("/images/banner-01.jpg");
+    width: 100vw;
+    height: 36vw;
+    top: 0;
+    left: 0;
+    opacity: .1;
+    z-index: -1;
+    background-size: inherit;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.shop section {
+    padding: 10vh;
+}
+.shop section > div {
+
+}
+
+
 .nav-link{
     color: rgb(255, 255, 255);
     font-size: 20px;
@@ -14,8 +58,10 @@ body{
 .nav-link:hover{
     color: white;
 }
+.card-body { color: #616161; }
+
 .grocery-img{
-    width: 60%;
+    width: 100%;
     margin: 1rem auto;
 }
 
@@ -43,11 +89,11 @@ body{
     text-align: left;
     padding: 10px 1em;
 }
-.modal-content {
+.shop .modal-content {
     height: 90vh;
 }
-.modal-dialog {
-    max-width: 600px;
+.shop .modal-dialog {
+    max-width: 1200px
 }
 @media (min-width: 1600px) {
     #cartModal .modal-dialog {
