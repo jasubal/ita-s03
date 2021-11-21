@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/shop.css">
     <title>Checkout Page</title>
 </head>
 
@@ -28,7 +29,7 @@
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"><i class="fas fa-ellipsis-v"></i></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -51,10 +52,11 @@
   </nav>
 
     <!-- header -->
+    <div class="cover-shop-bg"></div>
     <h1 class="text-center head m-4">Checkout Page</h1>
     <!-- header -->
     <!-- icons starts here -->
-    <div class="icons">
+    <div class="icons text-white">
         <div class="row mr-0">
             <div class="col-sm-6">
                 <h2 class="my-3 mx-5 bord shadow"><i class="fas fa-dollar-sign bg p-4 mr-4"></i>Cash on Delivery</h2>
@@ -79,31 +81,31 @@
         <div id="checkOutFileds" class="row bord p-5 shadow m-5">
             <div class="col-sm-5">
                 <div id="group-name" class="form-group row">
-                    <input class="name ml-3  input rounded p-2" type="text" placeholder="Your First Name"  />
-                    <p id="errorName">Please, minimum 3 chars and do not use Numbers here</p>
+                    <input class="name ml-3  input rounded p-2" type="text" placeholder="Your First Name" autofocus  />
+                    <p class="errors"  id="errorName">Please, minimum 3 chars and do not use Numbers here</p>
                 </div>
                 <div id="group-email" class="form-group row ">
                     <input class="email ml-3  input rounded p-2" type="email" placeholder="Your Email"  />
-                    <p id="errorEmail">Enter a correct Email</p>
+                    <p class="errors"  id="errorEmail">Enter a correct Email</p>
                 </div>
                 <div id="group-adress" class="form-group  row ">
                     <input class="adress ml-3 input rounded p-2" type="text" placeholder="Your Address"  />
-                    <p id="errorAdress">Please, minimum 3 chars and do not use Numbers here</p>
+                    <p class="errors"  id="errorAdress">Please, minimum 3 chars and do not use Numbers here</p>
                 </div>
             </div>
             <div class="col-sm-5">
                 <div id="group-lastName" class="form-group  row ">
                     <input class="lastName ml-3 input  rounded p-2" type="text" placeholder="Your Last Name"  />
-                    <p id="errorLastName">Please, minimum 3 chars and do not use Numbers here</p>
+                    <p class="errors"  id="errorLastName">Please, minimum 3 chars and do not use Numbers here</p>
                 </div>
                 <div id="group-password" class="form-group  row ">
                     <input class="password ml-3 input  rounded p-2" title="(6-10 characters)" type="password" minlength="4"
                         maxlength="8" placeholder="Your Password"  />
-                    <p id="errorPassword">From 6 to 10 chars and contain letters and numbers only</p>
+                    <p class="errors"  id="errorPassword">From 6 to 10 chars and contain letters and numbers only</p>
                 </div>
                 <div id="group-phone" class="form-group row">
                     <input class="phone ml-3  input rounded p-2" type="text" placeholder="Your Phone Number"  />
-                    <p id="errorPhone">Invalid phone number!!</p>
+                    <p class="errors"  id="errorPhone">Invalid phone number!</p>
                 </div>
             </div>
         </div>
