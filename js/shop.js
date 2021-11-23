@@ -118,18 +118,23 @@ function addToCart(id) {
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     console.log('▼▼▼ calculating ▼▼▼');
 
-    addedItem = products[id - 1]
-    cartList.push(addedItem);
-    console.log("Last added Item: "+ addedItem.name);
-
     $cartMessage.innerHTML = '';
     $itemsList.innerHTML = '';
-    cart= [];
-    cartList.forEach(cartListItem => {
+
+    addedItem = products[id - 1]
+    //cartList.push(addedItem);
+    console.log("Last added Item: "+ addedItem.name);
+    //cart = [];
+
+    /*
+    cart.forEach(cartListItem => {
         let cartItem;
         let currName ='';
-        currName = cartListItem.name;
-        //console.log(currName);
+        currName = addedItem.name;
+        console.log(currName);
+*/
+var cartItem;
+var currName = addedItem.name;
         //check if product is already in cart
     if ( cart.some( obj => obj.name == currName )) {
          cartItem = cart.find(element => element.name == currName);
@@ -138,25 +143,27 @@ function addToCart(id) {
         cartItem.quantity ++ ;
         cartItem.subtotal = cartItem.quantity * cartItem.price;
         cartItem.subtotalWithDiscount = cartItem.quantity * cartItem.priceWithDiscount;
-
+        console.log("it exist already");
     }else {
-            cart.push({
-                id: cartListItem.id,
-                name: cartListItem.name,
-                type: cartListItem.type,
+        cart.push({
+            id: addedItem.id,
+            name: addedItem.name,
+            type: addedItem.type,
 
-                price: cartListItem.price,
-                subtotal: cartListItem.price,
+            price: addedItem.price,
+            subtotal: addedItem.price,
 
-                priceWithDiscount: cartListItem.price,
-                subtotalWithDiscount: cartListItem.price,
+            priceWithDiscount: addedItem.price,
+            subtotalWithDiscount: addedItem.price,
 
-                quantity: 1
-                  });
+            quantity: 1
+            });
+
         }
-    });
+    // });
 
-    //console.log(cart);
+    // console.log(cart);
+
 
     applyPromotionsCart();
     calculateSubtotals();
@@ -173,7 +180,7 @@ function cleanCart() {
     $cartMessage.innerHTML = cartMessage;
     $itemsList.innerHTML = '';
     cart = [];
-    cartList = [];
+    //cartList = [];
     subtotal.grocery.value = 0;
     subtotal.beauty.value = 0;
     subtotal.clothes.value = 0;
@@ -182,6 +189,7 @@ function cleanCart() {
     subtotal.clothes.discount = 0;
     total = 0;
     $cartTotal.innerHTML = '';
+    $cartTotalDiscount.innerHTML = '';
     cartMessage = "Cart is empty"
     console.log("Cart cleared!");
     console.log(cart);
@@ -242,10 +250,12 @@ function calculateSubtotals() {
     subtotal.grocery.value = roundPrice(subtotal.grocery.value);
     subtotal.beauty.value = roundPrice(subtotal.beauty.value);
     subtotal.clothes.value = roundPrice(subtotal.clothes.value);
+
     subtotal.grocery.discount = roundPrice(subtotal.grocery.discount);
     subtotal.beauty.discount = roundPrice(subtotal.beauty.discount);
     subtotal.clothes.discount = roundPrice(subtotal.clothes.discount);
 
+    /*
     console.log("grocery subTotal= " + subtotal.grocery.value);
     console.log("grocery discount= " + subtotal.grocery.discount);
 
@@ -257,6 +267,7 @@ function calculateSubtotals() {
 
     console.log(subtotal);
     console.log("Subtotals Calculated");
+    */
 }
 
 // Exercise 4
@@ -265,7 +276,7 @@ function calculateTotal() {
     total = 0;
     totalAfterDiscount = 0;
     totalDiscount = 0;
-    valueSaved = total - totalAfterDiscount ;
+
     for (var x in subtotal) {
         if (subtotal.hasOwnProperty(x)) {
             total += subtotal[x].value;
@@ -276,10 +287,14 @@ function calculateTotal() {
     totalRounded = roundPrice(total);
     total = totalRounded;
     totalAfterDiscount = total - totalDiscount;
+    valueSaved = total - totalAfterDiscount ;
+    /*
     console.log("Total before discound = " + total);
     console.log("Total discound = " + totalDiscount);
     console.log("Total after discound = " + totalAfterDiscount);
+    console.log("Value Saved = " + valueSaved);
     console.log("Total calculated");
+    */
 }
 
 // Exercise 5 // refactored in addToCart(id);
@@ -320,65 +335,71 @@ function generateCart() {
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     //subtotalWithDiscount
-    let cartItem;
+    let cartItemPromo;
     let newPromoPrice;
 
     if ( cart.some( obj => obj.name == "cooking oil" )) {
-        cartItem = cart.find(element => element.name == "cooking oil");
+        cartItemPromo = cart.find(element => element.name == "cooking oil");
         //console.log(cartItem);
-        if (cartItem.quantity >= 3) {
+        if (cartItemPromo.quantity >= 3) {
             console.log("cartItem >= 3 cooking oil ");
             newPromoPrice = 10;
-            cartItem.priceWithDiscount = newPromoPrice;
-            cartItem.subtotalWithDiscount = cartItem.quantity * cartItem.priceWithDiscount;
+            cartItemPromo.priceWithDiscount = newPromoPrice;
+            cartItemPromo.subtotalWithDiscount = cartItemPromo.quantity * cartItemPromo.priceWithDiscount;
 
-            console.log("Promotions applied to cooking oil");
+            console.log("Promotions applied to: "+ cartItemPromo.name);
+
         }else {
-            cartItem.priceWithDiscount = cartItem.price;
-            cartItem.subtotalWithDiscount = cartItem.subtotal;
-
+            cartItemPromo.priceWithDiscount = cartItemPromo.price;
+            cartItemPromo.subtotalWithDiscount = cartItemPromo.subtotal;
         }
 
     }
     if ( cart.some( obj => obj.name == "Instant cupcake mixture" )) {
-        cartItem = cart.find(element => element.name == "Instant cupcake mixture");
+        cartItemPromo = cart.find(element => element.name == "Instant cupcake mixture");
         //console.log(cartItem);
-        if (cartItem.quantity >= 10) {
+        if (cartItemPromo.quantity >= 10) {
             console.log("cartItem >= 10 Instant cupcake mixture ");
-            newPromoPrice = (cartItem.price*2)/3;
-            cartItem.priceWithDiscount = roundPrice(newPromoPrice);
-            cartItem.subtotalWithDiscount = roundPrice(cartItem.quantity * cartItem.priceWithDiscount);
+            newPromoPrice = (cartItemPromo.price*2)/3;
+            cartItemPromo.priceWithDiscount = roundPrice(newPromoPrice);
+            cartItemPromo.subtotalWithDiscount = roundPrice(cartItemPromo.quantity * cartItemPromo.priceWithDiscount);
 
-            console.log("Promotions applied to Instant cupcake mixture");
+            console.log("Promotions applied to: "+ cartItemPromo.name);
         }else {
-            cartItem.priceWithDiscount = cartItem.price;
-            cartItem.subtotalWithDiscount = cartItem.subtotal;
+
+            cartItemPromo.priceWithDiscount = cartItemPromo.price;
+            cartItemPromo.subtotalWithDiscount = cartItemPromo.subtotal;
 
         }
+    } else if (cart.length>1) {
+
+        cartItemPromo.priceWithDiscount = cartItemPromo.price;
+        cartItemPromo.subtotalWithDiscount = cartItemPromo.subtotal;
+
     }
 
+}
     //console.log(cart);
 
-}
 
 // Exercise 9
 function removeFromCart(id) {
-    cartItem = '';
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
-    if (cartItem = cart.find(element => element.id == id)){
-        cartItem.quantity -- ;
-        cartList.splice(cartItem, 1);
-        cartItem.subtotal = cartItem.quantity * cartItem.price;
-        if (cartItem.quantity<1){
-            cart.splice(cartItem, 1);
-            cartList.splice(cartItem, 1);
-        }
+    cartItemToRemove = '';
+    cartItemToRemove = cart.find(element => element.id == id);
+    //console.log(cartItemToRemove);
+    if (cartItemToRemove.quantity > 1){
+        cartItemToRemove.quantity -- ;
+        applyPromotionsCart();
+        cartItemToRemove.subtotal = cartItemToRemove.quantity * cartItemToRemove.price;
+        cartItemToRemove.subtotalWithDiscount = cartItemToRemove.quantity * cartItemToRemove.priceWithDiscount;
 
-    console.log(cartItem.name+ " removed, "+ cartItem.quantity+" items remaining");
+    }else {
+        cart.splice(cart.indexOf(cartItemToRemove), 1);
+        applyPromotionsCart()
     }
-    //console.log(cartList);
-    applyPromotionsCart();
+    //console.log(cartItemToRemove.name+ " removed, "+ cartItemToRemove.quantity+" items remaining");
+    //console.log(cart);
+
     calculateSubtotals();
     calculateTotal();
     printCart();
@@ -393,10 +414,10 @@ function printCart() {
     $cartMessage.innerHTML = '';
     $itemsList.innerHTML = '';
     numItemsCard = cart.length;
-    console.log("items in card: "+numItemsCard);
+    //console.log("items in card: "+numItemsCard);
 
     if (numItemsCard <= 0 ) {
-        cartMessage = "Cart is empty! Select Something";
+        cartMessage = "Cart is empty! <br> Select Something";
         cleanCart();
     }else{
         cartMessage = "Added " + numItemsCard + " ítems";
@@ -404,7 +425,7 @@ function printCart() {
         $cartTotal.innerHTML = "TOTAL before discount = "+ total + "$";
         $cartTotalDiscount.innerHTML = "TOTAL after discount = "+ totalAfterDiscount + "$";
     }
-    console.log(cartMessage);
+    // console.log(cartMessage);
 
 
     for (i = 0; i < cart.length; ++i) {

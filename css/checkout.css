@@ -1,1 +1,45 @@
-/* all to shop.css */
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+body {
+    font-family: Poppins;
+}
+
+#checkOutFileds {
+    justify-content: center;
+    padding: 3em 0 1em;
+    display: flex;
+    align-content: center;
+}
+#checkOutFileds input {
+    max-width: 480px;
+    max-height: 3em;
+    width: 100%;
+    margin-left: 0!important;
+}
+.form-group {
+    height: 5em;
+    margin-bottom: 0;
+    max-width: 480px;
+    width: 100%;
+}
+#errorName, #errorLastName, #errorEmail, #errorPassword,  #errorPhone, #errorAdress {
+    display: none;
+    text-align: center;
+    width: 100%;
+}
+
+#group-name.showError, #group-lastName.showError ,
+ #group-email.showError,  #group-password.showError,  #group-phone.showError, #group-adress.showError  {
+    color: brown;
+    display: block!important;
+}
+
+ .showError #errorName, .showError #errorLastName,
+.showError #errorEmail, .showError #errorPassword,
+.showError #errorPhone, .showError #errorAdress  {
+    display: block!important;
+}
+.showError input {
+    border: 1px solid red;
+    box-shadow: 2px 2px 2px red;;
+}
