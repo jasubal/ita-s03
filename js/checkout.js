@@ -35,30 +35,23 @@ function validate() {
     //$submit.disabled = true;
     // Validate fields entered by the user: name, phone, password, and email
     console.log("validating...");
-    validateLastName($lastName);
+
+
     validateName($name);
+    validateLastName($lastName);
     validateMail($email);
     validatePass($password);
     validatePhone($phone);
     validateAdress($adress);
 
-    /*
-if (validateName($name)){
-    console.log("name ok");
-}else if (validateLastName($lastName)){
-    console.log("lastName ok");
-}else if (validateMail($email)){
-    console.log("email ok");
-}else if (validatePass($password)){
-    console.log("password ok");
-}else if (validatePhone($phone)){
-    console.log("phone ok");
-}else if (validateAdress($adress)){
-    console.log("adress ok");
-}else {
- console.log("end validating all OKS");
+
+if((validateName($name)) && (validateLastName($lastName)) &&
+(validateMail($email)) && (validatePass($password)) &&
+(validatePhone($phone)) && (validateAdress($adress))){
+console.log("end validating all OKS");
+ alert("All fields validated and OKS");
 }
-*/
+
 
 }
 
@@ -95,10 +88,11 @@ function validateMail(e){
     //console.log("mail: "+val);
     if (Regex.test(val)) {
         $gEmail.classList.remove('showError');
+        return true;
     } else {
         console.log("invalid mail");
         $gEmail.classList.add('showError');
-        return true;
+
     }
 }
 function validatePass(e){
@@ -156,17 +150,17 @@ function onlyLettersSpaces(vinput){
 
 function noempty3chars(vinput){
     if (vinput.length >= 3 && vinput !=='' ) {
-        console.log("less than 3: " + vinput.length);
+        console.log("more than 3: " + vinput.length);
         return true;
     }else {
-        //console.log("ok noempty3chars");
+        console.log("less than 3");
         return false;
 
     }
 
 }
 function alphanumeric(vinput) {
-    let Regex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,10}$/;
+let Regex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,10}$/;
  if ( Regex.test(vinput) ) {
    return true;
   } else {
@@ -175,7 +169,7 @@ function alphanumeric(vinput) {
   }
 }
 function onlynumeric(vinput) {
-    let Regex = /^(?=.*\d).{9,10}$/;
+let Regex = /^(?=.*\d).{9,10}$/;
  if ( Regex.test(vinput) ) {
    return true;
   } else {
