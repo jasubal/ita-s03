@@ -81,7 +81,7 @@ var $itemsList = document.getElementById('itemsList');
 var $cartMessage = document.getElementById('cartMessage');
 var $cartTotal = document.getElementById('cartTotal');
 var $cartTotalDiscount = document.getElementById('cartTotalDiscount');
-
+var $valueSaved = document.getElementById('valueSaved');
 
 var cartMessage  = '';
 var numItemsCard = '';
@@ -286,8 +286,8 @@ function calculateTotal() {
 
     totalRounded = roundPrice(total);
     total = totalRounded;
-    totalAfterDiscount = total - totalDiscount;
-    valueSaved = total - totalAfterDiscount ;
+    totalAfterDiscount = roundPrice(total - totalDiscount);
+    valueSaved = roundPrice(total - totalAfterDiscount) ;
     /*
     console.log("Total before discound = " + total);
     console.log("Total discound = " + totalDiscount);
@@ -295,6 +295,7 @@ function calculateTotal() {
     console.log("Value Saved = " + valueSaved);
     console.log("Total calculated");
     */
+    console.log("Value Saved = " + valueSaved);
 }
 
 // Exercise 5 // refactored in addToCart(id);
@@ -344,9 +345,8 @@ function applyPromotionsCart() {
         if (cartItemPromo.quantity >= 3) {
             console.log("cartItem >= 3 cooking oil ");
             newPromoPrice = 10;
-            cartItemPromo.priceWithDiscount = newPromoPrice;
+            cartItemPromo.priceWithDiscount = roundPrice(newPromoPrice);
             cartItemPromo.subtotalWithDiscount = cartItemPromo.quantity * cartItemPromo.priceWithDiscount;
-
             console.log("Promotions applied to: "+ cartItemPromo.name);
 
         }else {
@@ -424,6 +424,7 @@ function printCart() {
         $cartMessage.innerHTML = cartMessage;
         $cartTotal.innerHTML = "TOTAL before discount = "+ total + "$";
         $cartTotalDiscount.innerHTML = "TOTAL after discount = "+ totalAfterDiscount + "$";
+        $valueSaved.innerHTML =  "Value Saved = "+ valueSaved + "$";
     }
     // console.log(cartMessage);
 
