@@ -50,6 +50,8 @@ if((validateName($name)) && (validateLastName($lastName)) &&
 (validatePhone($phone)) && (validateAdress($adress))){
 console.log("end validating all OKS");
  alert("All fields validated and OKS");
+ document.getElementById("checkOutForm").reset();
+
 }
 
 
